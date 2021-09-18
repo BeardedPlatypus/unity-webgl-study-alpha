@@ -424,7 +424,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   instanceMesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
   instanceMaterial: {fileID: 2100000, guid: 3d7a92c86bd208e4c93b09cf5c9e0bca, type: 2}
-  instanceCountAxis: 1000
+  instanceCountAxis: 100
 --- !u!4 &647722865
 Transform:
   m_ObjectHideFlags: 0
