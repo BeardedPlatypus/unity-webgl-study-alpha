@@ -56,7 +56,7 @@ namespace Camera
             float currentRotation = CameraRotationAroundX();
             
             float clampedRotation = 
-                Mathf.Clamp(rotation, -currentRotation, 0.5f * Mathf.PI - currentRotation);
+                Mathf.Clamp(rotation, -currentRotation + 5F * Mathf.Deg2Rad, 0.5f * Mathf.PI - currentRotation);
 
             return -clampedRotation * Mathf.Rad2Deg;
         }
