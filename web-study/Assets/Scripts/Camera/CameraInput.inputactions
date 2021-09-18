@@ -1,0 +1,52 @@
+{
+    "name": "CameraInput",
+    "maps": [
+        {
+            "name": "World",
+            "id": "3ed5b0b5-e821-4ad4-a3d6-9a61bfcd2b3d",
+            "actions": [
+                {
+                    "name": "OrbitActive",
+                    "type": "PassThrough",
+                    "id": "8f0581ef-006b-4147-b6bc-7ba55cee3372",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Drag",
+                    "type": "PassThrough",
+                    "id": "c71e5971-142a-42d1-9c0e-8286a31db1aa",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "7ba60ccc-c661-4c8a-a320-9d97b4622941",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "OrbitActive",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4191809e-8539-40a4-83ef-5437a5dac1fc",
+                    "path": "<Mouse>/delta",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Drag",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
