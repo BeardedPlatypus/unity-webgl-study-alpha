@@ -1,5 +1,7 @@
+using System;
 using Cinemachine;
 using UniRx;
+using Unity.Mathematics;
 using UnityEngine;
 using Zenject;
 
@@ -35,13 +37,38 @@ namespace Camera
 
         private void OnOrbit(Vector2 inputTranslation)
         {
-            Vector2 translation = inputTranslation * orbitFactor;
+            Vector2 rotation = inputTranslation * orbitFactor;
 
             var orbitCenter = Vector3.zero;
             var worldX = _virtualCameraTransform.TransformVector(Vector3.left);
+
+            float rotationAroundX = ClampRotation(rotation.y);
             
-            _virtualCameraTransform.RotateAround(orbitCenter, worldX, translation.y);
-            _virtualCameraTransform.RotateAround(orbitCenter, Vector3.up, translation.x);
+            _virtualCameraTransform.RotateAround(orbitCenter, worldX, rotationAroundX);
+            _virtualCameraTransform.RotateAround(orbitCenter, Vector3.up, rotation.x);
         }
+
+        private float ClampRotation(float newRotation)
+        {
+            // The rotation will be applied negatively due to rotating around the local x axis.
+            // As such we need to invert the rotation during this calculation.
+            float rotation = -newRotation * Mathf.Deg2Rad;
+            float currentRotation = CameraRotationAroundX();
+            
+            float clampedRotation = 
+                Mathf.Clamp(rotation, -currentRotation, 0.5f * Mathf.PI - currentRotation);
+
+            return -clampedRotation * Mathf.Rad2Deg;
+        }
+
+        private float CameraRotationAroundX()
+        {
+            var position = _virtualCameraTransform.position;
+            
+            var distance = math.distance(position, Vector3.zero);
+            return Mathf.Asin(position.y / distance);
+        }
+
+
     }
 }
