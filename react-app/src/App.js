@@ -1,5 +1,5 @@
 import React from "react";
-import Unity, { UnityContext } from "react-unity-webgl"
+import Unity, { UnityContext } from "react-unity-webgl";
 
 
 const unityContext = new UnityContext({
@@ -17,7 +17,39 @@ const unityStyle = {
 }
 
 
+function togglePlaying() {
+  unityContext.send("DataController", "TogglePlaying");
+}
+
+
+class PlayButton extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = { isPlaying: false };
+    this.togglePlaying = this.togglePlaying.bind(this);
+
+    unityContext.on("ToggledPlaying", this.togglePlaying);
+  }
+
+  togglePlaying() {
+    this.setState(prevState => ({
+      isPlaying: !prevState.isPlaying
+    }));
+  }
+
+  render() {
+    return (
+      <button onClick={togglePlaying}>
+        {this.state.isPlaying ? 'Pause' : 'Play'}
+      </button>
+    );
+  }
+}
+
+
 function App() {
+
   return (
     <div className="App">
       <header className="App-header">
@@ -39,6 +71,13 @@ function App() {
             unityContext={unityContext}
             style={unityStyle}
           />
+        </div>
+        <div style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}>
+          <PlayButton />
         </div>
       </header>
     </div>
