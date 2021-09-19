@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Runtime.InteropServices;
 using UnityEngine;
 
 namespace Data
@@ -18,6 +19,8 @@ namespace Data
 
         private float _timeInProcess = 0F;
         private float _maxTime;
+
+        private bool _isPlaying = false;
 
         // TODO: Clean this prototype mess.
         private void Awake()
@@ -67,19 +70,35 @@ namespace Data
 
             _maxTime = (float) timeSteps / (float) timeStepsPerSecond;
         }
-        
+
         private void Update()
         {
-            _timeInProcess += Time.deltaTime;
-            _timeInProcess %= _maxTime;
-            
+            if (_isPlaying)
+            {
+                _timeInProcess += Time.deltaTime;
+                _timeInProcess %= _maxTime;
+            }
+
             int timeStep = Mathf.FloorToInt(_timeInProcess * timeStepsPerSecond);
 
-            foreach (var (dat, sca) in _matrices.Zip(_scaling, (dat, sca) => new Tuple<Matrix4x4[], Matrix4x4[][]>(dat, sca)))
+            foreach (var (dat, sca) in _matrices.Zip(_scaling,
+                (dat, sca) => new Tuple<Matrix4x4[], Matrix4x4[][]>(dat, sca)))
             {
                 var arr = dat.Zip(sca, (v, s) => s[timeStep] * v).ToArray();
                 Graphics.DrawMeshInstanced(instanceMesh, 0, instanceMaterial, arr);
             }
         }
+        
+        [DllImport("__Internal")]
+        private static extern void ToggledPlaying();
+
+        public void TogglePlaying()
+        {
+            _isPlaying = !_isPlaying;
+            
+#if (UNITY_WEBGL && !UNITY_EDITOR)
+        ToggledPlaying();
+#endif
+        } 
     }
 }
