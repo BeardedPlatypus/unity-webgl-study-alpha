@@ -1,4 +1,5 @@
 # unity-webgl-study-alpha
+*work-in-progress: will be updated soon*
 A unity WebGL study, focusing on visualising some simple data and integrating it into a react website.
 
 ## References
